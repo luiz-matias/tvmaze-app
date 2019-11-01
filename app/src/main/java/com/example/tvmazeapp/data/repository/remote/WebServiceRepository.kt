@@ -14,7 +14,7 @@ class WebServiceRepository : ShowsRepository {
         private lateinit var instance: WebServiceRepository
 
         @Synchronized
-        fun getInstance(context: Context): WebServiceRepository {
+        fun getInstance(): WebServiceRepository {
             instance = WebServiceRepository()
             return instance
         }
@@ -24,8 +24,16 @@ class WebServiceRepository : ShowsRepository {
         WebService.getInstance().create()
     }
 
-    override fun getShows(search: String): Observable<SearchResponseData> {
-        return webService.getShows(search).subscribeOn(Schedulers.io())
+    override fun getShows(search: String): Observable<List<Show>> {
+        return webService.getShows(search)
+            .subscribeOn(Schedulers.io())
+            .map {
+                val shows = ArrayList<Show>()
+                it.forEach { result ->
+                    shows.add(result.show)
+                }
+                shows.toList()
+            }
     }
 
     override fun getShowDetails(showId: Int): Observable<Show> {
