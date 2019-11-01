@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class WebService private constructor() {
 
     companion object {
-        private const val BASE_URL = "http://api.tvmaze.com"
+        private const val BASE_URL = "https://api.tvmaze.com"
         private val instance: WebService = WebService()
 
         @Synchronized
