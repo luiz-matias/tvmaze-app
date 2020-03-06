@@ -6,21 +6,7 @@ import com.example.tvmazeapp.data.repository.ShowsRepository
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
-class WebServiceRepository : ShowsRepository {
-
-    companion object {
-        private lateinit var instance: WebServiceRepository
-
-        @Synchronized
-        fun getInstance(): WebServiceRepository {
-            instance = WebServiceRepository()
-            return instance
-        }
-    }
-
-    private val webService by lazy {
-        WebService.getInstance().create()
-    }
+class WebServiceRepository(private val webService: TVMazeApi) : ShowsRepository {
 
     override fun getShows(search: String): Observable<List<Show>> {
         return webService.getShows(search)

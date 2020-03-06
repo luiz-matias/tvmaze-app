@@ -7,16 +7,10 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class WebService private constructor() {
+class WebService {
 
     companion object {
         private const val BASE_URL = "https://api.tvmaze.com"
-        private val instance: WebService = WebService()
-
-        @Synchronized
-        fun getInstance(): WebService {
-            return instance
-        }
     }
 
     fun create(): TVMazeApi {
