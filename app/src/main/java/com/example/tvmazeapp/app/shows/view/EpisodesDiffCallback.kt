@@ -1,4 +1,4 @@
-package com.example.tvmazeapp.app.shows
+package com.example.tvmazeapp.app.shows.view
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.tvmazeapp.data.model.Episode

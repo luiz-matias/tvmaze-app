@@ -1,4 +1,4 @@
-package com.example.tvmazeapp.app.shows
+package com.example.tvmazeapp.app.shows.view
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -40,7 +40,12 @@ class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAda
     }
 
     fun updateItens(showsData: ArrayList<Show>) {
-        val diffResult = DiffUtil.calculateDiff(ShowsDiffCallback(showsData, this.showsData))
+        val diffResult = DiffUtil.calculateDiff(
+            ShowsDiffCallback(
+                showsData,
+                this.showsData
+            )
+        )
         this.showsData.clear()
         this.showsData.addAll(showsData)
         diffResult.dispatchUpdatesTo(this)

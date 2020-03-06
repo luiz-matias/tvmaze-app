@@ -1,4 +1,4 @@
-package com.example.tvmazeapp.app.shows
+package com.example.tvmazeapp.app.shows.view
 
 import android.content.Intent
 import android.os.Bundle

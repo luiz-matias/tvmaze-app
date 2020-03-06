@@ -1,4 +1,4 @@
-package com.example.tvmazeapp.app.shows
+package com.example.tvmazeapp.app.shows.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,13 +6,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tvmazeapp.R
-import com.example.tvmazeapp.data.repository.ShowsRepository
-import com.example.tvmazeapp.data.repository.remote.WebServiceRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
+import com.example.tvmazeapp.app.shows.viewmodel.ShowsStateHandler
+import com.example.tvmazeapp.app.shows.viewmodel.ShowsViewModel
 import kotlinx.android.synthetic.main.activity_shows.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ShowsActivity : AppCompatActivity() {
 
@@ -20,52 +20,57 @@ class ShowsActivity : AppCompatActivity() {
         ShowsAdapter(this)
     }
 
-    private val repository: ShowsRepository by lazy {
-        WebServiceRepository.getInstance()
-    }
-
-    private val compositeDisposable = CompositeDisposable()
+    private val viewModel: ShowsViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shows)
 
         initRecyclerView()
+        initObserver()
 
         searchViewShows.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    searchShows(searchViewShows.query.toString())
-                    return true
-                }
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchShows(searchViewShows.query.toString())
+                return true
+            }
 
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    return true
-                }
-            })
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
 
     }
 
-    private fun searchShows(search: String) {
-        compositeDisposable.add(
-            repository.getShows(search)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {
-                    progressBarShows.visibility = View.VISIBLE
-                    recyclerViewShows.visibility = View.GONE
+    private fun initObserver() {
+        viewModel.stateHandler.observe(this, Observer {
+            when (it) {
+                is ShowsStateHandler.LoadingShows -> {
+                    showLoading(true)
                 }
-                .subscribe({
-                    adapter.updateItens(ArrayList(it))
-                }, {
+                is ShowsStateHandler.Error -> {
+                    showLoading(false)
                     Toast.makeText(
                         this,
                         "Houve um problema ao recuperar a lista de shows",
                         Toast.LENGTH_SHORT
                     ).show()
-                }, {
-                    progressBarShows.visibility = View.GONE
-                    recyclerViewShows.visibility = View.VISIBLE
-                })
-        )
+                }
+                is ShowsStateHandler.ShowsLoaded -> {
+                    showLoading(false)
+                    adapter.updateItens(ArrayList(it.shows))
+                }
+            }
+        })
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        progressBarShows.visibility = if (isLoading) View.VISIBLE else View.GONE
+        recyclerViewShows.visibility = if (!isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun searchShows(search: String) {
+        viewModel.getShows(search)
     }
 
     private fun initRecyclerView() {
@@ -85,10 +90,5 @@ class ShowsActivity : AppCompatActivity() {
             )
         }
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.clear()
     }
 }

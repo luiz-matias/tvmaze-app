@@ -9,7 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tvmazeapp.R
-import com.example.tvmazeapp.app.shows.EpisodesDiffCallback
+import com.example.tvmazeapp.app.shows.view.EpisodesDiffCallback
 import com.example.tvmazeapp.data.model.Episode
 import kotlinx.android.synthetic.main.item_episode.view.*
 
@@ -39,7 +39,12 @@ class EpisodesAdapter(private val context: Context) : RecyclerView.Adapter<Episo
     }
 
     fun updateItens(episodesData: ArrayList<Episode>) {
-        val diffResult = DiffUtil.calculateDiff(EpisodesDiffCallback(episodesData, this.episodesData))
+        val diffResult = DiffUtil.calculateDiff(
+            EpisodesDiffCallback(
+                episodesData,
+                this.episodesData
+            )
+        )
         this.episodesData.clear()
         this.episodesData.addAll(episodesData)
         diffResult.dispatchUpdatesTo(this)
