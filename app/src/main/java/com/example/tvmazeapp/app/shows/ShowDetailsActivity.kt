@@ -1,10 +1,10 @@
 package com.example.tvmazeapp.app.shows
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tvmazeapp.R
 import com.example.tvmazeapp.app.episodes.EpisodeDetailsActivity

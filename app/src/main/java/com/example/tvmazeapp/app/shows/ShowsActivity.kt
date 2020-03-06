@@ -1,15 +1,12 @@
 package com.example.tvmazeapp.app.shows
 
 import android.content.Intent
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.tvmazeapp.R
 import com.example.tvmazeapp.data.repository.ShowsRepository
 import com.example.tvmazeapp.data.repository.remote.WebServiceRepository

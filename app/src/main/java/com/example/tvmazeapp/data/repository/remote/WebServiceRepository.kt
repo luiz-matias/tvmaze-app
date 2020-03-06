@@ -1,8 +1,6 @@
 package com.example.tvmazeapp.data.repository.remote
 
-import android.content.Context
 import com.example.tvmazeapp.data.model.Episode
-import com.example.tvmazeapp.data.model.SearchResponseData
 import com.example.tvmazeapp.data.model.Show
 import com.example.tvmazeapp.data.repository.ShowsRepository
 import io.reactivex.Observable
