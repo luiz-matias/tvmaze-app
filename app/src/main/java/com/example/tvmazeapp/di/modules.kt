@@ -1,5 +1,6 @@
 package com.example.tvmazeapp.di
 
+import com.example.tvmazeapp.app.episodes.viewmodel.EpisodeDetailsViewModel
 import com.example.tvmazeapp.app.shows.viewmodel.ShowDetailsViewModel
 import com.example.tvmazeapp.app.shows.viewmodel.ShowsViewModel
 import com.example.tvmazeapp.data.repository.ShowsRepository
@@ -13,6 +14,7 @@ val appModule = module {
     //region ViewModels
     viewModel { ShowsViewModel(get(), get()) }
     viewModel { ShowDetailsViewModel(get(), get()) }
+    viewModel { EpisodeDetailsViewModel(get(), get()) }
     //endregion
 
     //region Repositories
