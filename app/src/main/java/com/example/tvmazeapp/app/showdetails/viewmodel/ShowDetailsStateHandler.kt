@@ -1,4 +1,4 @@
-package com.example.tvmazeapp.app.shows.viewmodel
+package com.example.tvmazeapp.app.showdetails.viewmodel
 
 import com.example.tvmazeapp.data.model.Episode
 

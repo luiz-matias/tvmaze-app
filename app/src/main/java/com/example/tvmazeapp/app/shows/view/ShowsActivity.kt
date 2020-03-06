@@ -9,6 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tvmazeapp.R
+import com.example.tvmazeapp.app.showdetails.view.ShowDetailsActivity
 import com.example.tvmazeapp.app.shows.viewmodel.ShowsStateHandler
 import com.example.tvmazeapp.app.shows.viewmodel.ShowsViewModel
 import kotlinx.android.synthetic.main.activity_shows.*

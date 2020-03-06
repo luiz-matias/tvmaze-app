@@ -1,4 +1,4 @@
-package com.example.tvmazeapp.app.episodes.view
+package com.example.tvmazeapp.app.showdetails.view
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,7 +9,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tvmazeapp.R
-import com.example.tvmazeapp.app.shows.view.EpisodesDiffCallback
 import com.example.tvmazeapp.data.model.Episode
 import kotlinx.android.synthetic.main.item_episode.view.*
 

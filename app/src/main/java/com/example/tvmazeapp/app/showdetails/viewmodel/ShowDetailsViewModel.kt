@@ -1,4 +1,4 @@
-package com.example.tvmazeapp.app.shows.viewmodel
+package com.example.tvmazeapp.app.showdetails.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -18,12 +18,19 @@ class ShowDetailsViewModel(application: Application, private val showsRepository
             showsRepository.getEpisodes(showId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
-                    stateHandler.value = ShowDetailsStateHandler.LoadingEpisodes
+                    stateHandler.value =
+                        ShowDetailsStateHandler.LoadingEpisodes
                 }
                 .subscribe({
-                    stateHandler.value = ShowDetailsStateHandler.EpisodesLoaded(it)
+                    stateHandler.value =
+                        ShowDetailsStateHandler.EpisodesLoaded(
+                            it
+                        )
                 }, {
-                    stateHandler.value = ShowDetailsStateHandler.Error(it.message!!)
+                    stateHandler.value =
+                        ShowDetailsStateHandler.Error(
+                            it.message!!
+                        )
                 })
         )
     }
