@@ -1,4 +1,4 @@
-package com.example.tvmazeapp.app.episodes
+package com.example.tvmazeapp.app.episodes.view
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -21,7 +21,9 @@ class EpisodesAdapter(private val context: Context) : RecyclerView.Adapter<Episo
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_episode, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(
+            view
+        )
     }
 
     override fun getItemCount(): Int = episodesData.size

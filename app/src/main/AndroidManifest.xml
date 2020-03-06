@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".app.episodes.EpisodeDetailsActivity" />
+        <activity android:name=".app.episodes.view.EpisodeDetailsActivity" />
         <activity android:name=".app.shows.view.ShowDetailsActivity" />
         <activity android:name=".app.shows.view.ShowsActivity">
             <intent-filter>

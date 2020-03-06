@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tvmazeapp.R
-import com.example.tvmazeapp.app.episodes.EpisodeDetailsActivity
-import com.example.tvmazeapp.app.episodes.EpisodesAdapter
+import com.example.tvmazeapp.app.episodes.view.EpisodeDetailsActivity
+import com.example.tvmazeapp.app.episodes.view.EpisodesAdapter
 import com.example.tvmazeapp.app.shows.viewmodel.ShowDetailsStateHandler
 import com.example.tvmazeapp.app.shows.viewmodel.ShowDetailsViewModel
 import kotlinx.android.synthetic.main.activity_show_details.*
