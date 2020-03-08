@@ -1,8 +1,7 @@
-package com.example.tvmazeapp.app.shows
+package com.example.tvmazeapp.app.showdetails.view
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.tvmazeapp.data.model.Episode
-import com.example.tvmazeapp.data.model.Show
 
 class EpisodesDiffCallback(
     private val newData: ArrayList<Episode>,

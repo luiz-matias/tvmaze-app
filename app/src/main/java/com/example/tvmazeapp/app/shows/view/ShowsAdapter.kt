@@ -1,20 +1,15 @@
-package com.example.tvmazeapp.app.shows
+package com.example.tvmazeapp.app.shows.view
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tvmazeapp.R
 import com.example.tvmazeapp.data.model.Show
-import com.squareup.picasso.MemoryPolicy
-import com.squareup.picasso.NetworkPolicy
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_show.view.*
 
 
@@ -45,7 +40,12 @@ class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAda
     }
 
     fun updateItens(showsData: ArrayList<Show>) {
-        val diffResult = DiffUtil.calculateDiff(ShowsDiffCallback(showsData, this.showsData))
+        val diffResult = DiffUtil.calculateDiff(
+            ShowsDiffCallback(
+                showsData,
+                this.showsData
+            )
+        )
         this.showsData.clear()
         this.showsData.addAll(showsData)
         diffResult.dispatchUpdatesTo(this)

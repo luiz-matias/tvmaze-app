@@ -1,19 +1,18 @@
-package com.example.tvmazeapp.app.shows
+package com.example.tvmazeapp.app.showdetails.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tvmazeapp.R
-import com.example.tvmazeapp.app.episodes.EpisodeDetailsActivity
-import com.example.tvmazeapp.app.episodes.EpisodesAdapter
-import com.example.tvmazeapp.data.repository.ShowsRepository
-import com.example.tvmazeapp.data.repository.remote.WebServiceRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
+import com.example.tvmazeapp.app.episodes.view.EpisodeDetailsActivity
+import com.example.tvmazeapp.app.showdetails.viewmodel.ShowDetailsStateHandler
+import com.example.tvmazeapp.app.showdetails.viewmodel.ShowDetailsViewModel
 import kotlinx.android.synthetic.main.activity_show_details.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ShowDetailsActivity : AppCompatActivity() {
 
@@ -21,17 +20,14 @@ class ShowDetailsActivity : AppCompatActivity() {
         EpisodesAdapter(this)
     }
 
-    private val repository: ShowsRepository by lazy {
-        WebServiceRepository.getInstance()
-    }
-
-    private val compositeDisposable = CompositeDisposable()
+    private val viewModel: ShowDetailsViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_details)
 
         initRecyclerView()
+        initObserver()
 
         textViewShowTitle.setText(intent.getStringExtra("showName"))
         toolbar.title = intent.getStringExtra("showName")
@@ -40,27 +36,35 @@ class ShowDetailsActivity : AppCompatActivity() {
 
     }
 
-    private fun loadEpisodes(showId: Int) {
-        compositeDisposable.add(
-            repository.getEpisodes(showId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {
-                    progressBarShows.visibility = View.VISIBLE
-                    recyclerViewEpisodes.visibility = View.GONE
+    private fun initObserver() {
+        viewModel.stateHandler.observe(this, Observer {
+            when (it) {
+                is ShowDetailsStateHandler.LoadingEpisodes -> {
+                    showLoading(true)
                 }
-                .subscribe({
-                    adapter.updateItens(ArrayList(it))
-                }, {
+                is ShowDetailsStateHandler.Error -> {
+                    showLoading(false)
                     Toast.makeText(
                         this,
                         "Houve um problema ao recuperar os episódios",
                         Toast.LENGTH_SHORT
                     ).show()
-                }, {
-                    progressBarShows.visibility = View.GONE
-                    recyclerViewEpisodes.visibility = View.VISIBLE
-                })
-        )
+                }
+                is ShowDetailsStateHandler.EpisodesLoaded -> {
+                    showLoading(false)
+                    adapter.updateItens(ArrayList(it.episodes))
+                }
+            }
+        })
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        progressBarShows.visibility = if (isLoading) View.VISIBLE else View.GONE
+        recyclerViewEpisodes.visibility = if (!isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun loadEpisodes(showId: Int) {
+        viewModel.getEpisodes(showId)
     }
 
     private fun initRecyclerView() {
@@ -77,10 +81,5 @@ class ShowDetailsActivity : AppCompatActivity() {
             )
         }
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.clear()
     }
 }
